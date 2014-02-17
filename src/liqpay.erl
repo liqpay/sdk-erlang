@@ -1,5 +1,7 @@
 -module(liqpay).
 
+-version("1.0").
+
 -include("liqpay.hrl").
 
 % init
