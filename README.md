@@ -8,7 +8,7 @@ sdk-erlang
 
 ```erlang
 liqpay:init(PublicKey, PrivateKey)-> liqpay:liqpay()
-liqpay:cnb_form(Liqpay, Params)-> iolist().
+liqpay:cnb_form(Liqpay, Params)-> iolist()
 ```
 
     1> Lp = liqpay:init("i42344324", "fsdfsdfsdf").
