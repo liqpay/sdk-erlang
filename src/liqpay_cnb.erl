@@ -5,6 +5,7 @@
 % init
 -export([form/2]).
 -export([signature/2]).
+-export([str_to_sign/1]).
 
 
 
@@ -53,6 +54,13 @@ signature(#liqpay{public_key = PublicKey, private_key = PrivateKey}, Params)->
 		to_list_sign( proplists:get_value(result_url, Params) ) ++
 		to_list_sign( proplists:get_value(server_url, Params) ),
 
+	str_to_sign(Str).
+
+
+
+
+-spec str_to_sign(list()) -> list().
+str_to_sign(Str)->
 	to_list( base64:encode( crypto:hash(sha, Str) ) ).
 
 
