@@ -45,6 +45,8 @@ to_binary(null)->
     <<>>;
 to_binary(undefined)->
     <<>>;
+to_binary(Value) when is_atom(Value)->
+    atom_to_binary(Value, unicode);
 to_binary(Value) when is_binary(Value)->
     Value;        
 to_binary(Value) when is_list(Value)->
