@@ -19,7 +19,7 @@
 
 
 
--spec init(list(), list()) -> liqpay().
+-spec init(binary(), binary()) -> liqpay().
 init(PublicKey, PrivateKey)->
     #liqpay{
         public_key  = PublicKey,
@@ -35,18 +35,18 @@ api(Path, Params, Lp)->
 
 
 
--spec cnb_form(Lp, list()) -> list() when Lp::liqpay().
+-spec cnb_form(Lp, list()) -> binary() when Lp::liqpay().
 cnb_form(Lp, Params)->
 	liqpay_cnb:form(Lp, Params).
 
 
 
--spec cnb_signature(Lp, list()) -> list() when Lp::liqpay().
+-spec cnb_signature(Lp, list()) -> binary() when Lp::liqpay().
 cnb_signature(Lp, Params)->
 	liqpay_cnb:signature(Lp, Params).
 
 
 
--spec str_to_sign(list()) -> list().
+-spec str_to_sign(binary()) -> binary().
 str_to_sign(Str)->
 	liqpay_cnb:str_to_sign(Str).
