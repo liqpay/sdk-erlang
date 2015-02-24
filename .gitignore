@@ -1,0 +1,10 @@
+# Created by .gitignore support plugin (hsz.mobi)
+### Erlang template
+.eunit
+deps/
+*.o
+*.beam
+*.plt
+erl_crash.dump
+*.iml
+.idea/

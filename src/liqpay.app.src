@@ -1,0 +1,21 @@
+{application, liqpay, [
+  {description, "liqpay erlang sdk"},
+  {vsn, "3.0"},
+  {registered, []},
+  {applications, [
+    kernel,
+    stdlib,
+    inets,
+    ssl
+  ]},
+  {mod, {liqpay_app, []}},
+  {modules, [
+    liqpay_app,
+    liqpay_sup,
+    liqpay,
+    liqpay_api,
+    liqpay_cnb,
+    liqpay_post
+  ]},
+  {env, []}
+]}.
