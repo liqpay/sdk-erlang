@@ -1,5 +1,5 @@
 -define(LIQPAY_URL_API, "https://www.liqpay.com/api/").
--define(LIQPAY_URL_CNB, "https://www.liqpay.com/api/checkout").
+-define(LIQPAY_URL_CNB, "https://www.liqpay.com/api/3/checkout").
 -define(LIQPAY_URL_BUTTON, "//static.liqpay.com/buttons/").
 
 
