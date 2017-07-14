@@ -18,12 +18,12 @@ request(Path, Params, Lp)->
 
 
   %% validate params
-  case proplists:get_value(<<"version">>, Params) of
+  case maps:get(<<"version">>, Params, undefined) of
     undefined -> error({badarg, version});
     _         -> ok       
   end,
 
-  Params2   = [{<<"public_key">>, PubKey} | Params],
+  Params2   = Params#{<<"public_key">> => PubKey},
   JsonData  = base64:encode( FunEncode(Params2) ),
   Str       = <<PrivKey/binary, JsonData/binary, PrivKey/binary>>,
   Signature = base64:encode( crypto:hash(sha, Str) ),

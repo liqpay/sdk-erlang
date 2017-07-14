@@ -1,10 +1,17 @@
-# Created by .gitignore support plugin (hsz.mobi)
-### Erlang template
+.rebar3
+_*
 .eunit
-deps/
 *.o
 *.beam
 *.plt
+*.swp
+*.swo
+.erlang.cookie
+ebin
+log
 erl_crash.dump
-*.iml
-.idea/
+.rebar
+logs
+_build
+.idea
+rebar3.crashdump

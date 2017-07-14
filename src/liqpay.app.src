@@ -1,21 +1,17 @@
-{application, liqpay, [
-  {description, "liqpay erlang sdk"},
-  {vsn, "3.0"},
+{application, liqpay,
+ [{description, "An OTP library"},
+  {vsn, "0.1.0"},
   {registered, []},
-  {applications, [
-    kernel,
+  {applications,
+   [kernel,
     stdlib,
     inets,
     ssl
-  ]},
-  {mod, {liqpay_app, []}},
-  {modules, [
-    liqpay_app,
-    liqpay_sup,
-    liqpay,
-    liqpay_api,
-    liqpay_cnb,
-    liqpay_post
-  ]},
-  {env, []}
-]}.
+   ]},
+  {env,[]},
+  {modules, []},
+
+  {maintainers, []},
+  {licenses, ["Apache 2.0"]},
+  {links, []}
+ ]}.

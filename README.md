@@ -1,6 +1,9 @@
-sdk-erlang
-==========
+liqpay
+=====
 
-LiqPay SDK-ERLANG 
+An OTP library
 
-Documentation https://www.liqpay.com/ru/doc
+Build
+-----
+
+    $ rebar3 compile

@@ -11,21 +11,22 @@
 
 %%% API
 
--spec form(Lp, list()) -> binary() when Lp::liqpay:liqpay().
+-spec form(Lp, map()) -> binary() when Lp::liqpay:liqpay().
 form(Lp, Params)->
 
-	Type = proplists:get_value(<<"type">>, Params),
-	Language = proplists:get_value(<<"language">>, Params, <<"ru">>),
+	Action   = maps:get(<<"action">>, Params, <<"pay">>),
+	Language = maps:get(<<"language">>, Params, <<"ru">>),
 
 	BtnNameFull = 
-	case Type of
-		<<"donate">> -> <<"d1", Language/binary, ".png">>;
-		_            -> <<"p1", Language/binary, ".png">>
+	case Action of
+		<<"paydonate">> -> <<"d1", Language/binary, ".png">>;
+		_               -> <<"p1", Language/binary, ".png">>
 	end,
 	JsonData = base64:encode( params(Lp, Params) ),
 	Sign     = signature(Lp, Params),
+	Url = ?LIQPAY_URL_CNB,
 	<<
-	"<form id=\"liqpay_form\" method=\"POST\" action=\"", ?LIQPAY_URL_CNB, "\">\n",
+	"<form id=\"liqpay_form\" method=\"POST\" action=\"", Url, "\">\n",
 		"\t<input type=\"hidden\" name=\"data\" value=\"", JsonData/binary, "\" />\n",	
 		"\t<input type=\"hidden\" name=\"signature\" value=\"", Sign/binary, "\" />\n",
 		"\t<input type=\"image\" src=\"", ?LIQPAY_URL_BUTTON,  BtnNameFull/binary, "\" name=\"btn_text\" class=\"liqpay_pay_button\" />\n",
@@ -36,7 +37,7 @@ form(Lp, Params)->
 
 
 
--spec signature(Lp, list()) -> binary() when Lp::liqpay:liqpay().
+-spec signature(Lp, map()) -> binary() when Lp::liqpay:liqpay().
 signature(Lp = #liqpay{private_key = PrivateKey}, Params)->
 	
   	JsonData  = base64:encode( params(Lp, Params) ),
@@ -55,26 +56,26 @@ str_to_sign(Str)->
 params(Lp = #liqpay{public_key = PublicKey}, Params)->
 	FunEncode = Lp#liqpay.json_fun_encode,
 	Params2 = 
-	case proplists:get_value(<<"public_key">>, Params) of
+	case maps:get(<<"public_key">>, Params, undefined) of
 		undefined ->
 			[{<<"public_key">>, PublicKey} | Params];
 		_  ->
 			Params
 	end,
 	%% validate params
-	case proplists:get_value(<<"version">>, Params) of
+	case maps:get(<<"version">>, Params, undefined) of
 		undefined -> error({badarg, version});
 		_         -> ok 			
 	end,
-	case proplists:get_value(<<"amount">>, Params) of
+	case maps:get(<<"amount">>, Params, undefined) of
 		undefined -> error({badarg, amount});
 		_         -> ok 			
 	end,
-	case proplists:get_value(<<"currency">>, Params) of
+	case maps:get(<<"currency">>, Params, undefined) of
 		undefined -> error({badarg, currency});
 		_         -> ok 			
 	end,
-	case proplists:get_value(<<"description">>, Params) of
+	case maps:get(<<"description">>, Params, undefined) of
 		undefined -> error({badarg, description});
 		_         -> ok 			
 	end,

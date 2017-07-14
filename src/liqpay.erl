@@ -1,11 +1,9 @@
 -module(liqpay).
 
--version("3.0").
-
 -include("liqpay.hrl").
 
 % init
--export([init/2]).
+-export([init/2, init/4]).
 
 -export([api/3]).
 % cnb API
@@ -26,22 +24,31 @@ init(PublicKey, PrivateKey)->
         private_key = PrivateKey
     }.
 
+-spec init(binary(), binary(), fun((map()) -> binary()), fun((binary()) -> map())) -> liqpay().
+init(PublicKey, PrivateKey, Encoder, Decoder)->
+    #liqpay{
+        public_key  = PublicKey,
+        private_key = PrivateKey,
+        json_fun_encode = Encoder,
+    	json_fun_decode = Decoder
+    }.
 
 
--spec api(list(), list(), Lp) -> list() when Lp::liqpay().
+
+-spec api(list(), map(), Lp) -> map() when Lp::liqpay().
 api(Path, Params, Lp)->
 	liqpay_api:request(Path, Params, Lp).
 
 
 
 
--spec cnb_form(Lp, list()) -> binary() when Lp::liqpay().
+-spec cnb_form(Lp, map()) -> binary() when Lp::liqpay().
 cnb_form(Lp, Params)->
 	liqpay_cnb:form(Lp, Params).
 
 
 
--spec cnb_signature(Lp, list()) -> binary() when Lp::liqpay().
+-spec cnb_signature(Lp, map()) -> binary() when Lp::liqpay().
 cnb_signature(Lp, Params)->
 	liqpay_cnb:signature(Lp, Params).
 

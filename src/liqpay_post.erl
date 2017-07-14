@@ -1,7 +1,5 @@
 -module(liqpay_post).
 
--include("liqpay.hrl").
-
 -export([post/2, post/3, post/4]).
 
 -define(ALERT_TIMEOUT, 3000).
@@ -23,9 +21,9 @@ post(URL, Data, Headers, HTTPOptions)->
 request(Method, URL, BodyCli, HeadersCli, HTTPOptions0)->
 
     HTTPOptions = [{connect_timeout, 5000} | HTTPOptions0],    
-    Start  = now(),
+    Start  = erlang:timestamp(),
     Result = request_run(Method, URL, HeadersCli, BodyCli, HTTPOptions),
-    Time   = trunc( timer:now_diff(now(), Start)/1000),
+    Time   = trunc( timer:now_diff(erlang:timestamp(), Start)/1000),
 
     Res = 
     case Result of
@@ -52,17 +50,8 @@ request(Method, URL, BodyCli, HeadersCli, HTTPOptions0)->
 
 % подключаемся к серверу
 request_run(post, URL, Headers, Body, HTTPOptions)->
-
-    {ContentType, ReqBody} =
-    case is_list(Body) of
-        true ->
-                {"application/x-www-form-urlencoded", compose_body(Body)};
-        _   ->
-                case Body of
-                    <<"<", _/binary>> -> {"text/xml", Body};
-                    _                 -> {"application/json", Body}
-                end
-    end,
+    ContentType = "application/x-www-form-urlencoded",
+    ReqBody = compose_body(Body),
     
     Res = httpc:request(post, {to_list(URL), Headers, ContentType, to_list(ReqBody)}, HTTPOptions, [{body_format, binary}]),
     case Res of
@@ -113,7 +102,7 @@ compose_body(Args) ->
 
 %% encode url params
 url_encode2(T) when is_binary(T)->
- url_encode2( binary_to_list(T) ) ;
+    url_encode2( binary_to_list(T) ) ;
 url_encode2([H|T]) ->
     if
         H >= $a, $z >= H ->
