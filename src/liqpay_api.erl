@@ -8,7 +8,7 @@
 
 
 %%% API
-
+-spec(request(list(), map(), Lp :: liqpay:liqpay()) -> map()).
 request(Path, Params, Lp)->
 
 	PrivKey   = Lp#liqpay.private_key,
@@ -20,19 +20,19 @@ request(Path, Params, Lp)->
   %% validate params
   case maps:get(<<"version">>, Params, undefined) of
     undefined -> error({badarg, version});
-    _         -> ok       
+    _         -> ok
   end,
 
   Params2   = Params#{<<"public_key">> => PubKey},
   JsonData  = base64:encode( FunEncode(Params2) ),
   Str       = <<PrivKey/binary, JsonData/binary, PrivKey/binary>>,
   Signature = base64:encode( crypto:hash(sha, Str) ),
-  
+
   Data = [
     {"data", JsonData},
     {"signature", Signature}
   ],
-  
+
   Res = liqpay_post:post(?LIQPAY_URL_API ++ Path, Data),
 
   case Res of

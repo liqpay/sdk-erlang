@@ -1,7 +1,6 @@
 -define(LIQPAY_HOST, "https://www.liqpay.ua").
 -define(LIQPAY_URL_API, ?LIQPAY_HOST ++ "/api/").
 -define(LIQPAY_URL_CNB, ?LIQPAY_HOST ++ "/api/3/checkout").
--define(LIQPAY_URL_BUTTON, "//static.liqpay.ua/buttons/").
 
 
 -record(liqpay, {
