@@ -22,6 +22,10 @@ request(Path, Params, Lp)->
     undefined -> error({badarg, version});
     _         -> ok
   end,
+  case maps:get(<<"action">>, Params, undefined) of
+    undefined -> error({badarg, action});
+    _         -> ok
+  end,
 
   Params2   = Params#{<<"public_key">> => PubKey},
   JsonData  = base64:encode( FunEncode(Params2) ),

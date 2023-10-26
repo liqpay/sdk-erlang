@@ -79,10 +79,5 @@ params(Lp = #liqpay{public_key = PublicKey}, Params) ->
         undefined -> error({badarg, description});
         _ -> ok
     end,
-    case maps:get(<<"order_id">>, Params, undefined) of
-        undefined -> error({badarg, order_id});
-        _ -> ok
-    end,
-
 
     FunEncode(Params2).

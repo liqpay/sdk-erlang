@@ -42,11 +42,6 @@ missing_description_test() ->
     Params = #{<<"version">> => 3, <<"action">> => <<"pay">>, <<"amount">> => 100, <<"currency">> => <<"USD">>, <<"order_id">> => <<"order_123">>},
     ?assertException(error, {badarg, description}, liqpay_cnb:params(Lp, Params)).
 
-missing_order_id_test() ->
-    Lp = #liqpay{public_key = <<"public_key_123">>, json_fun_encode = fun mock_json_fun_encode/1},
-    Params = #{<<"version">> => 3, <<"action">> => <<"pay">>, <<"amount">> => 100, <<"currency">> => <<"USD">>, <<"description">> => <<"Test">>},
-    ?assertException(error, {badarg, order_id}, liqpay_cnb:params(Lp, Params)).
-
 % Test when the public key is already present in Params
 public_key_already_present_test() ->
     Lp = #liqpay{public_key = <<"public_key_123">>, json_fun_encode = fun mock_json_fun_encode/1},
@@ -59,7 +54,6 @@ default_language_test() ->
     Lp = #liqpay{public_key = <<"public_key">>, private_key = <<"private_key">>},
     Params = #{<<"version">> => 3, <<"action">> => <<"pay">>, <<"amount">> => 100, <<"currency">> => <<"USD">>, <<"description">> => <<"Test">>, <<"order_id">> => <<"order_123">>},
     ActualForm = liqpay_cnb:form(Lp, Params),
-
     ?assert(string:find(binary_to_list(ActualForm), binary_to_list(<<"Cплатити"/utf8>>)) /= nomatch).
 
 specific_language_test() ->
