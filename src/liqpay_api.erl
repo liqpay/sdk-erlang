@@ -8,7 +8,9 @@
 
 
 %%% API
--spec(request(list(), map(), Lp :: liqpay:liqpay()) -> map()).
+-spec(request(list(), map()|list(), Lp :: liqpay:liqpay()) -> map()).
+request(Path, Params, Lp) when is_list(Params) ->
+  request(Path, maps:from_list(Params), Lp);
 request(Path, Params, Lp)->
 
 	PrivKey   = Lp#liqpay.private_key,

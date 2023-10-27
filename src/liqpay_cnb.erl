@@ -12,11 +12,12 @@
 
 %%% API
 
--spec form(Lp :: liqpay:liqpay(), map()) -> binary().
+-spec form(Lp :: liqpay:liqpay(), map()|list()) -> binary().
+form(Lp, Params) when is_map(Params) ->
+    form(Lp, maps:to_list(Params));
 form(Lp, Params) ->
-
     Language = maps:get(<<"language">>, Params, <<"uk">>),
-	ButtonText = maps:get(Language, ?BUTTON_TEXTS, <<"Cплатити"/utf8>>),
+	  ButtonText = maps:get(Language, ?BUTTON_TEXTS, <<"Cплатити"/utf8>>),
     JsonData = base64:encode(params(Lp, Params)),
     Sign = signature(Lp, Params),
     Url = list_to_binary(?LIQPAY_URL_CNB),
