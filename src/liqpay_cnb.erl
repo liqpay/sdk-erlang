@@ -13,8 +13,8 @@
 %%% API
 
 -spec form(Lp :: liqpay:liqpay(), map()|list()) -> binary().
-form(Lp, Params) when is_map(Params) ->
-    form(Lp, maps:to_list(Params));
+form(Lp, Params) when is_list(Params) ->
+    form(Lp, maps:from_list(Params));
 form(Lp, Params) ->
     Language = maps:get(<<"language">>, Params, <<"uk">>),
 	  ButtonText = maps:get(Language, ?BUTTON_TEXTS, <<"Cплатити"/utf8>>),
