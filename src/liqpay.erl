@@ -42,7 +42,9 @@ api(Path, Params, Lp)->
 
 
 
--spec cnb_form(Lp, map()) -> binary() when Lp::liqpay().
+-spec cnb_form(Lp | map(), map() | Lp) -> binary() when Lp::liqpay().
+cnb_form(Params, Lp) when is_record(Lp, liqpay) ->
+  liqpay_cnb:form(Lp, Params);
 cnb_form(Lp, Params)->
 	liqpay_cnb:form(Lp, Params).
 
